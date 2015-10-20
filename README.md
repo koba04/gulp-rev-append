@@ -2,12 +2,16 @@ gulp-rev-append
 ---
 > gulp plugin for cache-busting files using query string file hash
 
-[![Build Status](https://travis-ci.org/bustardcelly/gulp-rev-append.png?branch=master)](https://travis-ci.org/bustardcelly/gulp-rev-append)
+**This is a fork repository from [bustardcelly/gulp-rev-append](https://github.com/bustardcelly/gulp-rev-append)**
+
+Because I need some configurable options.
+
+[![Build Status](https://travis-ci.org/koba04/gulp-rev-append.png?branch=master)](https://travis-ci.org/koba04/gulp-rev-append)
 
 installation
 ---
 ```
-$ npm install gulp-rev-append --save-dev
+$ npm install @koba04/gulp-rev-append --save-dev
 ```
 
 how?
@@ -70,11 +74,19 @@ Any subsequent runs of the `gulp-rev-append` file will change the output _only_ 
 
 The only requirement is that the dependency to be appended with the hash be declared using `?rev=`. The `@@hash` is not required, and any value will be overriden as the dependency file contents change.
 
+options
+---
+
+* baseFilePath
+  * A document root directory on your project
+* baseRootPath
+  * A path for based root path. When you deploy a document root directory as `/app/` and you specify the path as  `/app/js/xxx.js` in HTML, you are able to specify `baseRootPath: '/app/'`. As a result, It is evaluated `/app/js/xxx.js` as `js/xxx.js` when it reads the file.
+
 why?
 ---
 I wanted to easily define dependencies that require simple cache-busting by using a query-string hash. The hash is based on file content, so any modification to the file dependency would result in a change to the generated and appended hash - effectively cache-busting the dependency in simple scenarios.
 
-__Be Warned__: Using query strings to cache-bust dependencies isn't fool proof. 
+__Be Warned__: Using query strings to cache-bust dependencies isn't fool proof.
 
 [Google | Leverage Proxy Cache Article](https://developers.google.com/speed/docs/best-practices/caching?csw=1#LeverageProxyCaching)  
 [Steve Souders | Revving Filenames: don't use querystring](http://www.stevesouders.com/blog/2008/08/23/revving-filenames-dont-use-querystring/)

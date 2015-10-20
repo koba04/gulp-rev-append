@@ -8,7 +8,9 @@ var map = require('event-stream').map;
 
 var FILE_DECL = /(?:href=|src=|url\()['|"]([^\s>"']+?)\?rev=([^\s>"']+?)['|"]/gi;
 
-var revPlugin = function revPlugin() {
+var revPlugin = function revPlugin(options) {
+
+  options = options || {};
 
   return map(function(file, cb) {
 
@@ -39,7 +41,9 @@ var revPlugin = function revPlugin() {
         // are we an "absoulte path"? (e.g. /js/app.js)
         var normPath = path.normalize(groups[1]);
         if (normPath.indexOf(path.sep) === 0) {
-          dependencyPath = path.join(file.base, normPath);
+          var baseFilePath = options.baseFilePath || file.base;
+          if (options.baseRootPath) normPath = normPath.replace(new RegExp("^" + options.baseRootPath), "");
+          dependencyPath = path.join(baseFilePath, normPath);
         } 
         else {
           dependencyPath = path.resolve(path.dirname(file.path), normPath);
